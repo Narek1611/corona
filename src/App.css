@@ -1,3 +1,25 @@
 .App {
   text-align: center;
 }
+
+.statistical {
+  margin: 5px 20px;
+  border: dotted 1px black;
+  background: antiquewhite;
+  border-radius: 20px 20px 0 0;
+}
+
+.info {
+  margin: 5px 20px;
+  height: 115px;
+  border: solid 1px black;
+  background: antiquewhite;
+}
+
+.my-info {
+  margin: 5px 20px;
+  padding: 5px;
+  border: dotted 1px black;
+  border-radius: 0 0 20px 20px;
+  background: antiquewhite;
+}
