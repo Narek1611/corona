@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { countriesList } from "./countriesList";
 
 function App() {
-  const [title, setTitle] = useState("");
   const [data, setData] = useState();
 
-  useEffect(() => {
-    if (title.length === 2) {
-      const handle = setTimeout(() => {
-        fetch(`https://corona-api.com/countries/${title}`)
-          .then((stream) => stream.json())
-          .then((r) => setData(r.data));
-      }, 500);
-      return () => {
-        clearInterval(handle);
-      };
+  const countryCode = (value) => {
+    const res = countriesList.filter(
+      (elm) => elm.name.toLowerCase() === value.toLowerCase()
+    );
+    if (res.length != 0) {
+      const country = res[0];
+      fetch(`https://corona-api.com/countries/${country.code}`)
+        .then((stream) => stream.json())
+        .then((r) => setData(r.data));
     }
-  }, [title]);
+  };
+
+  console.log(data);
 
   let name = "";
   let population = "";
@@ -38,6 +39,10 @@ function App() {
     today_deaths = data.today.deaths;
   }
   console.log(data);
+
+  let amsativ = updated_at.slice(0, 10);
+  let jam = updated_at.slice(11, 16);
+
   return (
     <div className="App">
       <h1>CoronaVirus</h1>
@@ -45,14 +50,10 @@ function App() {
       <p>
         {" "}
         Ճշտեք ձեր նախընտրած երկրում համաճարակի վիճակագրական տվյալները,ներքևի
-        դաշտում լրացնելով տվյալ երկրի կոդը։
+        դաշտում լրացնելով տվյալ երկրի անունը
       </p>
-      <h6>Օրինակ՝ am(Հայաստան),ru(Ռուսաստան), ․․․</h6>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <h6>Օրինակ՝ Armenia, Russia, ...</h6>
+      <input type="text" onChange={(e) => countryCode(e.target.value)} />
       <div className="statistical">
         <h2>- Երկիրը -</h2>
         <span>{name}</span>
@@ -62,7 +63,7 @@ function App() {
         <hr />
         <h4> - Հաստատված դեպքերի ընդհանուր քանակը - </h4>
         <span>
-          <h6>{updated_at}</h6>
+          <h6>{amsativ + " / " + jam}</h6>
           {confirmed}
         </span>
         <hr />
@@ -93,7 +94,8 @@ function App() {
       <div className="my-info">
         <h5>
           {" "}
-          © 2021 / Corona Statistical Information / All Rights Reserved.{" "}
+          © {`${new Date().getFullYear()}`} / Corona Statistical Information /
+          All Rights Reserved.{" "}
         </h5>
       </div>
     </div>
