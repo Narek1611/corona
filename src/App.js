@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import { countriesList } from "./countriesList";
 
@@ -9,7 +9,7 @@ function App() {
     const res = countriesList.filter(
       (elm) => elm.name.toLowerCase() === value.toLowerCase()
     );
-    if (res.length != 0) {
+    if (res.length !== 0) {
       const country = res[0];
       fetch(`https://corona-api.com/countries/${country.code}`)
         .then((stream) => stream.json())
